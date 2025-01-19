@@ -6,7 +6,7 @@ from openai import OpenAI
 from collections import defaultdict
 from datetime import datetime, timedelta
 
-from PySide6.QtWidgets import QAbstractItemView,QScrollArea ,QSpacerItem ,QVBoxLayout ,QSizePolicy ,QLabel, QTableView,QTextEdit ,QApplication, QMainWindow, QStackedWidget, QVBoxLayout, QListView, QPushButton, QWidget, QMessageBox
+from PySide6.QtWidgets import QAbstractItemView,QScrollArea ,QSpacerItem ,QVBoxLayout ,QSizePolicy ,QLabel, QTableView,QTextEdit ,QApplication, QMainWindow, QStackedWidget, QVBoxLayout, QListView, QPushButton, QWidget, QMessageBox, QHBoxLayout
 from PySide6.QtCore import QStringListModel, Qt, QSize
 from PySide6.QtGui import QStandardItemModel, QStandardItem, QIcon
 
@@ -14,7 +14,6 @@ from info import Ui_InfoWindow
 from ai import Ui_AiWindow
 from memo import Ui_MemoWindow
 from homework import Ui_HMWindow
-# https://school.mos.ru/?backUrl=https%3A%2F%2Fschool.mos.ru%2Fv2%2Ftoken%2Frefresh
 bug_button_active = False
 class MainApp(QMainWindow):
     def __init__(self):
@@ -86,18 +85,13 @@ class AiWindow(QMainWindow):
         super().__init__()
         self.ui = Ui_AiWindow()
         self.ui.setupUi(self)
-
-        # Создаем общий layout для сообщений
+        self.ui.textEdit.setAcceptRichText(False)
         self.message_layout = QVBoxLayout()
-
-        # Создаем виджет для прокрутки
         self.scroll_area = QScrollArea()
         self.scroll_area.setWidgetResizable(True)
-        self.scroll_area.setFixedHeight(400)  # Установите фиксированную высоту для прокрутки
+        self.scroll_area.setFixedHeight(400) 
         self.scroll_area.setWidget(QWidget())
         self.scroll_area.widget().setLayout(self.message_layout)
-
-        # Устанавливаем scroll_area в textBrowser
         self.ui.textBrowser.setLayout(QVBoxLayout())
         self.ui.textBrowser.layout().addWidget(self.scroll_area)
 
@@ -118,57 +112,52 @@ class AiWindow(QMainWindow):
     def send_message(self):
         user_message = self.ui.textEdit.toPlainText()
         self.display_message(user_message)
-
         self.ui.textEdit.clear()
-        ai_response = self.get_ai_response(user_message)
+        ai_response = "Думаю над ответом..."
         self.display_message(ai_response, is_ai=True)
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setMinimumHeight(300)
+        self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())
+        QApplication.processEvents()
+        self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())
+        def update_ai_response(response):
+            for i in range(self.message_layout.count()):
+                widget = self.message_layout.itemAt(i).widget()
+                if widget and isinstance(widget, QWidget):
+                    for j in range(widget.layout().count()):
+                        label = widget.layout().itemAt(j).widget()
+                        if label and isinstance(label, QLabel) and label.text() == ai_response:
+                            label.setText(response)
+        import threading
+        threading.Thread(target=lambda: update_ai_response(self.get_ai_response(user_message))).start()
 
     def display_message(self, message, is_ai=False):
         message_container = QWidget()
+        message_container.setMinimumHeight(100)
         message_layout = QVBoxLayout(message_container)
         message_layout.setContentsMargins(0, 0, 0, 0)
-
-        # Добавляем имя отправителя
-        sender_label = QLabel()
+        sender_time_label = QLabel()
         if is_ai:
-            sender_label.setText("Отличник")
+            sender_time_label.setText("AI " + datetime.now().strftime("%H:%M"))
         else:
-            sender_label.setText("User      ")
-        sender_label.setStyleSheet("font-size: 12px; color: #666666;")
-        message_layout.addWidget(sender_label, alignment=Qt.AlignTop | (Qt.AlignLeft if is_ai else Qt.AlignRight))
-
-        # Добавляем текст сообщения
+            sender_time_label.setText("User    " + datetime.now().strftime("%H:%M"))
+        sender_time_label.setStyleSheet("font-size: 12px; color: #666666;")
+        message_layout.addWidget(sender_time_label, alignment=Qt.AlignLeft if is_ai else Qt.AlignRight)
         message_label = QLabel()
         message_label.setText(message)
         if is_ai:
             message_label.setStyleSheet("background-color: #212121; color: white; border-radius: 10px; padding: 5px;")
         else:
             message_label.setStyleSheet("background-color: #8593fe; color: white; border-radius: 10px; padding: 5px;")
-        message_label.setWordWrap(True)  # Включаем wordWrap
-        message_label.setMinimumHeight(100)  # Установить минимальную высоту message_label
-        message_layout.addWidget(message_label, alignment=Qt.AlignTop | (Qt.AlignLeft if is_ai else Qt.AlignRight))
-
-        # Добавляем время отправки
-        time_label = QLabel()
-        time_label.setText(datetime.now().strftime("%H:%M"))
-        time_label.setStyleSheet("font-size: 12px; color: #666666;")
-        message_layout.addWidget(time_label, alignment=Qt.AlignBottom | (Qt.AlignLeft if is_ai else Qt.AlignRight))
-
-        # Добавляем контейнер в макет
+        message_label.setWordWrap(True)
+        message_label.adjustSize()
+        message_layout.addWidget(message_label)
         self.message_layout.addWidget(message_container, alignment=Qt.AlignTop | (Qt.AlignLeft if is_ai else Qt.AlignRight))
-
-        message_container.setFixedWidth(300)  # Устанавливаем максимальную ширину message_container
-        message_container.setMinimumHeight(150)  # Установить минимальную высоту message_container
-        message_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-
-        # Прокрутка вниз
-        self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())
-
-        # Обновление видимости scroll_area
         self.scroll_area.setWidgetResizable(True)
-
-        # Автоматическое изменение размеров textBrowser
-        self.ui.textBrowser.setFixedSize(661, 371)
+        self.scroll_area.setMinimumHeight(300)
+        self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())
+        QApplication.processEvents()
+        self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())
 
     def get_ai_response(self, user_message):
         client = OpenAI(
