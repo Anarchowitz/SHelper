@@ -689,6 +689,10 @@ class HMWindow(QMainWindow, Ui_HMWindow):
         settings = {'token_mesh': token}
         documents_path = get_documents_path()
         settings_path = os.path.join(documents_path, 'SchoolHelper', 'SchoolHelper_settings.json')
+        settings_dir = os.path.dirname(settings_path)
+        if not os.path.exists(settings_dir):
+            os.makedirs(settings_dir)
+        
         with open(settings_path, 'w') as f:
             json.dump(settings, f)
         if token == '':
