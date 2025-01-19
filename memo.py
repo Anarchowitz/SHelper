@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'memowlxYar.ui'
+## Form generated from reading UI file 'memoAAjfqj.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.1
 ##
@@ -144,7 +144,7 @@ class Ui_MemoWindow(object):
     def retranslateUi(self, MemoWindow):
         MemoWindow.setWindowTitle(QCoreApplication.translate("MemoWindow", u"SHelper", None))
         self.infoButton.setText(QCoreApplication.translate("MemoWindow", u"\u0418\u043d\u0444\u043e", None))
-        self.aiButton.setText(QCoreApplication.translate("MemoWindow", u"\u0427\u0430\u0442 AI", None))
+        self.aiButton.setText(QCoreApplication.translate("MemoWindow", u"\u041f\u043e\u043c\u043e\u0449\u043d\u0438\u043a", None))
         self.memoButton.setText(QCoreApplication.translate("MemoWindow", u"\u041f\u0430\u043c\u044f\u0442\u043a\u0438", None))
         self.homeworkButton.setText(QCoreApplication.translate("MemoWindow", u"\u0414\u043e\u043c\u0430\u0448\u043d\u0435\u0435\n"
 "\u0417\u0430\u0434\u0430\u043d\u0438\u0435", None))

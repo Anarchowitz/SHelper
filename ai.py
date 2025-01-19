@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'chataiRtvTuP.ui'
+## Form generated from reading UI file 'chataiiTMQOC.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.1
 ##
@@ -151,6 +151,7 @@ class Ui_AiWindow(object):
 "	background-color: #5c66b1;\n"
 "	font: 700 12pt \"Arial\";\n"
 "}")
+        self.sendButton.setAutoExclusive(False)
         self.textBrowser = QTextBrowser(self.frame_3)
         self.textBrowser.setObjectName(u"textBrowser")
         self.textBrowser.setGeometry(QRect(30, 20, 661, 371))
@@ -164,11 +165,11 @@ class Ui_AiWindow(object):
     def retranslateUi(self, AiWindow):
         AiWindow.setWindowTitle(QCoreApplication.translate("AiWindow", u"SHelper", None))
         self.infoButton.setText(QCoreApplication.translate("AiWindow", u"\u0418\u043d\u0444\u043e", None))
-        self.aiButton.setText(QCoreApplication.translate("AiWindow", u"\u0427\u0430\u0442 AI", None))
+        self.aiButton.setText(QCoreApplication.translate("AiWindow", u"\u041f\u043e\u043c\u043e\u0449\u043d\u0438\u043a", None))
         self.memoButton.setText(QCoreApplication.translate("AiWindow", u"\u041f\u0430\u043c\u044f\u0442\u043a\u0438", None))
         self.homeworkButton.setText(QCoreApplication.translate("AiWindow", u"\u0414\u043e\u043c\u0430\u0448\u043d\u0435\u0435\n"
 "\u0417\u0430\u0434\u0430\u043d\u0438\u0435", None))
-        self.label.setText(QCoreApplication.translate("AiWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:12pt; font-weight:700;\">\u0427\u0410\u0422 \u0421 \u041d\u0415\u0419\u0420\u041e\u0421\u0415\u0422\u042c\u042e</span></p></body></html>", None))
+        self.label.setText(QCoreApplication.translate("AiWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:12pt; font-weight:700;\">\u0427\u0410\u0422 \u0421 \u0423\u041c\u041d\u042b\u041c \u0414\u0420\u0423\u0413\u041e\u041c</span></p></body></html>", None))
         self.sendButton.setText(QCoreApplication.translate("AiWindow", u"\u041e\u0442\u043f\u0440\u0430\u0432\u0438\u0442\u044c", None))
     # retranslateUi
 

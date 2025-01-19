@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'homeworkIGStpq.ui'
+## Form generated from reading UI file 'homeworkxREMXx.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.1
 ##
@@ -248,7 +248,7 @@ class Ui_HMWindow(object):
     def retranslateUi(self, HMWindow):
         HMWindow.setWindowTitle(QCoreApplication.translate("HMWindow", u"SHelper", None))
         self.infoButton.setText(QCoreApplication.translate("HMWindow", u"\u0418\u043d\u0444\u043e", None))
-        self.aiButton.setText(QCoreApplication.translate("HMWindow", u"\u0427\u0430\u0442 AI", None))
+        self.aiButton.setText(QCoreApplication.translate("HMWindow", u"\u041f\u043e\u043c\u043e\u0449\u043d\u0438\u043a", None))
         self.memoButton.setText(QCoreApplication.translate("HMWindow", u"\u041f\u0430\u043c\u044f\u0442\u043a\u0438", None))
         self.pushButton_4.setText(QCoreApplication.translate("HMWindow", u"\u0414\u043e\u043c\u0430\u0448\u043d\u0435\u0435\n"
 "\u0417\u0430\u0434\u0430\u043d\u0438\u0435", None))

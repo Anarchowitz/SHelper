@@ -106,7 +106,7 @@ QPushButton:pressed{
 }</string>
      </property>
      <property name="text">
-      <string>Чат AI</string>
+      <string>Помощник</string>
      </property>
     </widget>
     <widget class="QPushButton" name="memoButton">

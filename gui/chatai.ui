@@ -106,7 +106,7 @@ QPushButton:pressed{
 }</string>
      </property>
      <property name="text">
-      <string>Чат AI</string>
+      <string>Помощник</string>
      </property>
     </widget>
     <widget class="QPushButton" name="memoButton">
@@ -203,7 +203,7 @@ border-radius:10px;</string>
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;ЧАТ С НЕЙРОСЕТЬЮ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;ЧАТ С УМНЫМ ДРУГОМ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </widget>
@@ -267,6 +267,9 @@ QPushButton:pressed{
      </property>
      <property name="text">
       <string>Отправить</string>
+     </property>
+     <property name="autoExclusive">
+      <bool>false</bool>
      </property>
     </widget>
     <widget class="QTextBrowser" name="textBrowser">

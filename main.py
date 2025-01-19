@@ -1,22 +1,25 @@
 import sys, os, json, webbrowser, requests, datetime
 from PIL import Image
-
 from openai import OpenAI
-
 from collections import defaultdict
 from datetime import datetime, timedelta
-
 from PySide6.QtWidgets import QAbstractItemView,QScrollArea ,QSpacerItem ,QVBoxLayout ,QSizePolicy ,QLabel, QTableView,QTextEdit ,QApplication, QMainWindow, QStackedWidget, QVBoxLayout, QListView, QPushButton, QWidget, QMessageBox, QHBoxLayout
 from PySide6.QtCore import QStringListModel, Qt, QSize
-from PySide6.QtGui import QStandardItemModel, QStandardItem, QIcon
-
+from PySide6.QtGui import QStandardItemModel, QStandardItem, QIcon, QShortcut, QKeySequence
 from info import Ui_InfoWindow
 from ai import Ui_AiWindow
 from memo import Ui_MemoWindow
 from homework import Ui_HMWindow
+#shit imports
+
 bug_button_active = False
 first_name = 'Пользователь'
 last_name = ''
+
+def get_documents_path():
+    if os.name == 'nt':  # Windows
+        documents_path = os.path.join(os.environ['USERPROFILE'], 'Documents')
+    return documents_path
 class MainApp(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -102,7 +105,10 @@ class AiWindow(QMainWindow):
         self.ui.homeworkButton.clicked.connect(self.show_hm_window)
         self.ui.sendButton.clicked.connect(self.send_message)
 
-    def show_info_window(self):
+        self.shortcut = QShortcut(QKeySequence("Ctrl+Return"), self)
+        self.shortcut.activated.connect(self.ui.sendButton.click)
+
+    def show_info_window(self): 
         main_app.stacked_widget.setCurrentWidget(main_app.info_window)
 
     def show_memo_window(self):
@@ -111,6 +117,7 @@ class AiWindow(QMainWindow):
     def show_hm_window(self):
         main_app.stacked_widget.setCurrentWidget(main_app.hm_window)
 
+    
     def send_message(self):
         user_message = self.ui.textEdit.toPlainText()
         self.display_message(user_message)
@@ -140,9 +147,9 @@ class AiWindow(QMainWindow):
         message_layout.setContentsMargins(0, 0, 0, 0)
         sender_time_label = QLabel()
         if is_ai:
-            sender_time_label.setText("AI " + datetime.now().strftime("%H:%M"))
+            sender_time_label.setText("Умный помощник - " + datetime.now().strftime("%H:%M"))
         else:
-            sender_time_label.setText(f"{first_name} {last_name} " + datetime.now().strftime("%H:%M"))
+            sender_time_label.setText(f"{first_name} {last_name} - " + datetime.now().strftime("%H:%M"))
         sender_time_label.setStyleSheet("font-size: 12px; color: #666666;")
         message_layout.addWidget(sender_time_label, alignment=Qt.AlignLeft if is_ai else Qt.AlignRight)
         message_label = QLabel()
@@ -658,14 +665,18 @@ class HMWindow(QMainWindow, Ui_HMWindow):
         self.populate_table()
     def token_button(self):
         webbrowser.open('https://school.mos.ru/?backUrl=https%3A%2F%2Fschool.mos.ru%2Fv2%2Ftoken%2Frefresh')
+
     def load_settings(self):
         print("Загрузка настроек...")
-        if not os.path.exists('settings.json'):
-            with open('settings.json', 'w') as f:
+        documents_path = get_documents_path()
+        settings_path = os.path.join(documents_path, 'SchoolHelper', 'SchoolHelper_settings.json')
+        if not os.path.exists(settings_path):
+            os.makedirs(os.path.dirname(settings_path), exist_ok=True)
+            with open(settings_path, 'w') as f:
                 json.dump({}, f)
 
         try:
-            with open('settings.json', 'r') as f:
+            with open(settings_path, 'r') as f:
                 self.settings = json.load(f)
                 self.token_mesh = self.settings.get('token_mesh', '')
                 self.ui.lineEdit.setText(self.token_mesh)
@@ -676,7 +687,9 @@ class HMWindow(QMainWindow, Ui_HMWindow):
     def save_token(self):
         token = self.ui.lineEdit.text()
         settings = {'token_mesh': token}
-        with open('settings.json', 'w') as f:
+        documents_path = get_documents_path()
+        settings_path = os.path.join(documents_path, 'SchoolHelper', 'SchoolHelper_settings.json')
+        with open(settings_path, 'w') as f:
             json.dump(settings, f)
         if token == '':
             QMessageBox.warning(self, "School Helper", "Значение не может быть пустым!")
