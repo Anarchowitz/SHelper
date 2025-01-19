@@ -15,6 +15,8 @@ from ai import Ui_AiWindow
 from memo import Ui_MemoWindow
 from homework import Ui_HMWindow
 bug_button_active = False
+first_name = 'Пользователь'
+last_name = ''
 class MainApp(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -140,7 +142,7 @@ class AiWindow(QMainWindow):
         if is_ai:
             sender_time_label.setText("AI " + datetime.now().strftime("%H:%M"))
         else:
-            sender_time_label.setText("User    " + datetime.now().strftime("%H:%M"))
+            sender_time_label.setText(f"{first_name} {last_name} " + datetime.now().strftime("%H:%M"))
         sender_time_label.setStyleSheet("font-size: 12px; color: #666666;")
         message_layout.addWidget(sender_time_label, alignment=Qt.AlignLeft if is_ai else Qt.AlignRight)
         message_label = QLabel()
@@ -727,6 +729,10 @@ class HMWindow(QMainWindow, Ui_HMWindow):
             if 'profile' in data2 and 'id' in data2['profile']:
                 student_id = data2['profile']['id']
                 print(f"Student-ID: {student_id}")
+                global first_name, last_name
+                first_name = data2['profile']['first_name']
+                last_name = data2['profile']['last_name']
+                print(first_name+' '+last_name)
                 self.student_id  = student_id
             else:
                 if bug_button_active:
