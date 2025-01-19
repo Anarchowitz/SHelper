@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'memoQybMgu.ui'
+## Form generated from reading UI file 'memowlxYar.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.1
 ##
@@ -18,6 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractItemView, QApplication, QFrame, QLabel,
     QListView, QMainWindow, QPushButton, QSizePolicy,
     QWidget)
+import shelper_rc
 
 class Ui_MemoWindow(object):
     def setupUi(self, MemoWindow):
@@ -26,6 +27,9 @@ class Ui_MemoWindow(object):
         MemoWindow.resize(1074, 714)
         MemoWindow.setMinimumSize(QSize(1074, 714))
         MemoWindow.setMaximumSize(QSize(1074, 714))
+        icon = QIcon()
+        icon.addFile(u":/icons/C:/Users/user/Downloads/\u0432\u0430\u0440\u0438\u0430\u043d\u0442\u0438\u043a\u043e\u043d\u043a\u04381-_1_.ico", QSize(), QIcon.Normal, QIcon.Off)
+        MemoWindow.setWindowIcon(icon)
         MemoWindow.setStyleSheet(u"background-color: #030303;")
         self.centralwidget = QWidget(MemoWindow)
         self.centralwidget.setObjectName(u"centralwidget")

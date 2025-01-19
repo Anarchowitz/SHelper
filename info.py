@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'infoQUTiWy.ui'
+## Form generated from reading UI file 'infoWLzVrs.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.1
 ##
@@ -17,6 +17,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QMainWindow,
     QPushButton, QSizePolicy, QWidget)
+import shelper_rc
 
 class Ui_InfoWindow(object):
     def setupUi(self, InfoWindow):
@@ -25,6 +26,9 @@ class Ui_InfoWindow(object):
         InfoWindow.resize(1074, 714)
         InfoWindow.setMinimumSize(QSize(1074, 714))
         InfoWindow.setMaximumSize(QSize(1074, 714))
+        icon = QIcon()
+        icon.addFile(u":/icons/C:/Users/user/Downloads/\u0432\u0430\u0440\u0438\u0430\u043d\u0442\u0438\u043a\u043e\u043d\u043a\u04381-_1_.ico", QSize(), QIcon.Normal, QIcon.Off)
+        InfoWindow.setWindowIcon(icon)
         InfoWindow.setStyleSheet(u"background-color: #030303;")
         self.centralwidget = QWidget(InfoWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -127,7 +131,15 @@ class Ui_InfoWindow(object):
         self.frame_3.setFrameShadow(QFrame.Shadow.Raised)
         self.label_2 = QLabel(self.frame_3)
         self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(20, 30, 691, 201))
+        self.label_2.setGeometry(QRect(20, 30, 691, 361))
+        self.label_2.setWordWrap(True)
+        self.bugButton = QPushButton(self.frame_3)
+        self.bugButton.setObjectName(u"bugButton")
+        self.bugButton.setGeometry(QRect(670, 420, 41, 31))
+        icon1 = QIcon()
+        icon1.addFile(u":/icons/C:/Users/user/Downloads/icons8-bug-90.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.bugButton.setIcon(icon1)
+        self.bugButton.setIconSize(QSize(30, 30))
         InfoWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(InfoWindow)
@@ -143,6 +155,7 @@ class Ui_InfoWindow(object):
         self.homeworkButton.setText(QCoreApplication.translate("InfoWindow", u"\u0414\u043e\u043c\u0430\u0448\u043d\u0435\u0435\n"
 "\u0417\u0430\u0434\u0430\u043d\u0438\u0435", None))
         self.label.setText(QCoreApplication.translate("InfoWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:12pt; font-weight:700;\">\u0413\u041b\u0410\u0412\u041d\u041e\u0415 \u041c\u0415\u041d\u042e</span></p></body></html>", None))
-        self.label_2.setText(QCoreApplication.translate("InfoWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:700;\">\u041f\u0440\u0438\u0432\u0435\u0442\u0441\u0442\u0432\u0443\u044e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c!<br/><br/>\u0410\u043a\u0442\u0443\u0430\u043b\u044c\u043d\u0430\u044f \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f \u043f\u043e \u043f\u0440\u043e\u0435\u043a\u0442\u0443:<br/>https://github.com/Anarchowitz/SHelper<br/></span><span style=\" font-size:11pt;\">\u0410\u043a\u0442\u0443\u0430\u043b\u044c\u043d\u0430\u044f \u0432\u0435\u0440\u0441\u0438\u044f: {version}</span></p></body></html>", None))
+        self.label_2.setText("")
+        self.bugButton.setText("")
     # retranslateUi
 

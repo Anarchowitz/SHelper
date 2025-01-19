@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'homeworklNWtrR.ui'
+## Form generated from reading UI file 'homeworkIGStpq.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.1
 ##
@@ -18,6 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QFrame, QHeaderView, QLabel,
     QLineEdit, QMainWindow, QPushButton, QSizePolicy,
     QTableView, QWidget)
+import shelper_rc
 
 class Ui_HMWindow(object):
     def setupUi(self, HMWindow):
@@ -26,6 +27,9 @@ class Ui_HMWindow(object):
         HMWindow.resize(1074, 714)
         HMWindow.setMinimumSize(QSize(1074, 714))
         HMWindow.setMaximumSize(QSize(1074, 714))
+        icon = QIcon()
+        icon.addFile(u":/icons/C:/Users/user/Downloads/\u0432\u0430\u0440\u0438\u0430\u043d\u0442\u0438\u043a\u043e\u043d\u043a\u04381-_1_.ico", QSize(), QIcon.Normal, QIcon.Off)
+        HMWindow.setWindowIcon(icon)
         HMWindow.setStyleSheet(u"background-color: #030303;")
         self.centralwidget = QWidget(HMWindow)
         self.centralwidget.setObjectName(u"centralwidget")

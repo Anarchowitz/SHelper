@@ -25,6 +25,10 @@
   <property name="windowTitle">
    <string>SHelper</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../qr/shelper.qrc">
+    <normaloff>:/icons/C:/Users/user/Downloads/вариантиконки1-_1_.ico</normaloff>:/icons/C:/Users/user/Downloads/вариантиконки1-_1_.ico</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">background-color: #030303;</string>
   </property>
@@ -238,54 +242,6 @@ border:50px;
 border-radius:10px;</string>
      </property>
     </widget>
-    <widget class="QFrame" name="frame_5">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>10</y>
-       <width>681</width>
-       <height>391</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: #1a1a1a;</string>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Shadow::Raised</enum>
-     </property>
-     <widget class="QScrollArea" name="scrollArea">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>681</width>
-        <height>391</height>
-       </rect>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOn</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>669</width>
-         <height>391</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </widget>
     <widget class="QPushButton" name="sendButton">
      <property name="geometry">
       <rect>
@@ -313,9 +269,21 @@ QPushButton:pressed{
       <string>Отправить</string>
      </property>
     </widget>
+    <widget class="QTextBrowser" name="textBrowser">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>20</y>
+       <width>661</width>
+       <height>371</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../qr/shelper.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -1,4 +1,4 @@
-import sys, os, json, webbrowser, requests
+import sys, os, json, webbrowser, requests, datetime
 from PIL import Image
 
 from openai import OpenAI
@@ -7,21 +7,23 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 
 from PySide6.QtWidgets import QAbstractItemView,QScrollArea ,QSpacerItem ,QVBoxLayout ,QSizePolicy ,QLabel, QTableView,QTextEdit ,QApplication, QMainWindow, QStackedWidget, QVBoxLayout, QListView, QPushButton, QWidget, QMessageBox
-from PySide6.QtCore import QStringListModel, Qt
-from PySide6.QtGui import QStandardItemModel, QStandardItem
+from PySide6.QtCore import QStringListModel, Qt, QSize
+from PySide6.QtGui import QStandardItemModel, QStandardItem, QIcon
 
 from info import Ui_InfoWindow
 from ai import Ui_AiWindow
 from memo import Ui_MemoWindow
 from homework import Ui_HMWindow
 # https://school.mos.ru/?backUrl=https%3A%2F%2Fschool.mos.ru%2Fv2%2Ftoken%2Frefresh
-
+bug_button_active = False
 class MainApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("SchoolHelper / Debug")
+        self.setWindowTitle("SchoolHelper")
+        icon = QIcon()
+        icon.addFile("C:/Users/user/Downloads/вариантиконки1-_1_.ico", QSize(), QIcon.Normal, QIcon.Off)
+        self.setWindowIcon(icon)
         self.stacked_widget = QStackedWidget()
-        
         
         self.info_window = InfoWindow()
         self.ai_window = AiWindow()
@@ -43,9 +45,22 @@ class InfoWindow(QMainWindow):
         self.ui = Ui_InfoWindow()
         self.hm_window = HMWindow()
         self.ui.setupUi(self)
+        self.ui.label_2.setText(
+            """<html><head/><body>
+            <p align="center"><span style=" font-size:20pt; font-weight:700;">🌟 Добро пожаловать в School Helper! 🌟</span></p>
+            <p><br/></p>
+            <p><span style=" font-size:12pt;">Уважаемые ученики и преподаватели! Мы рады представить вам наше новое десктоп-приложение, созданное специально для школьников 9-11 классов. School Helper станет вашим незаменимым спутником в учёбе, предоставляя возможность удобно хранить памятки по всем предметам, быстро находить информацию о домашних заданиях и общаться с нейросетью, которая всегда готова прийти на помощь!</span></p>
+            <p><span style=" font-size:12pt;">С School Helper вы сможете:</span></p>
+            <p><span style=" font-size:12pt;">📚 Легко ориентироваться в учебном материале;</span></p>
+            <p><span style=" font-size:12pt;">📝 Быстро находить информацию по домашним заданиям;</span></p>
+            <p><span style=" font-size:12pt;">💬 Общаться с нейросетью для получения ответов на любые вопросы.</span></p>
+            <p>Присоединяйтесь к нам и сделайте учёбу проще и увлекательнее! Вместе мы можем больше! 💪✨</p>
+            </body></html>"""
+        )
         self.ui.aiButton.clicked.connect(self.show_ai_window)
         self.ui.memoButton.clicked.connect(self.show_memo_window)
         self.ui.homeworkButton.clicked.connect(self.show_hm_window)
+        self.ui.bugButton.clicked.connect(self.toggle_bug_button)
 
     def show_memo_window(self):
         main_app.stacked_widget.setCurrentWidget(main_app.memo_window)
@@ -55,6 +70,15 @@ class InfoWindow(QMainWindow):
     
     def show_hm_window(self):
         main_app.stacked_widget.setCurrentWidget(main_app.hm_window)
+    def toggle_bug_button(self):
+        global bug_button_active
+        bug_button_active = not bug_button_active
+        if bug_button_active:
+            self.ui.bugButton.setStyleSheet("background-color: green;")
+            QMessageBox.information(self, "Режим разработчика", "Режим разработчика включен.")
+        else:
+            self.ui.bugButton.setStyleSheet("background-color: red;")
+            QMessageBox.information(self, "Режим разработчика", "Режим разработчика выключен.")
 
 
 class AiWindow(QMainWindow):
@@ -62,16 +86,24 @@ class AiWindow(QMainWindow):
         super().__init__()
         self.ui = Ui_AiWindow()
         self.ui.setupUi(self)
+
+        # Создаем общий layout для сообщений
+        self.message_layout = QVBoxLayout()
+
+        # Создаем виджет для прокрутки
+        self.scroll_area = QScrollArea()
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setFixedHeight(400)  # Установите фиксированную высоту для прокрутки
+        self.scroll_area.setWidget(QWidget())
+        self.scroll_area.widget().setLayout(self.message_layout)
+
+        # Устанавливаем scroll_area в textBrowser
+        self.ui.textBrowser.setLayout(QVBoxLayout())
+        self.ui.textBrowser.layout().addWidget(self.scroll_area)
+
         self.ui.infoButton.clicked.connect(self.show_info_window)
         self.ui.memoButton.clicked.connect(self.show_memo_window)
         self.ui.homeworkButton.clicked.connect(self.show_hm_window)
-
-        # Создаем новый виджет для сообщений и устанавливаем его в scrollArea
-        self.message_widget = QWidget()
-        self.message_layout = QVBoxLayout(self.message_widget)
-        self.ui.scrollArea.setWidget(self.message_widget)
-        self.ui.scrollArea.setWidgetResizable(True)
-
         self.ui.sendButton.clicked.connect(self.send_message)
 
     def show_info_window(self):
@@ -83,50 +115,83 @@ class AiWindow(QMainWindow):
     def show_hm_window(self):
         main_app.stacked_widget.setCurrentWidget(main_app.hm_window)
 
-    def send_message(self): 
-        user_message = self.ui.textEdit.toPlainText() 
-        if user_message: 
-            self.display_message(user_message, is_user=True) 
-            self.ui.textEdit.clear() 
-            self.scroll_to_bottom()  # Прокручиваем вниз
-            self.ai_message(user_message)
+    def send_message(self):
+        user_message = self.ui.textEdit.toPlainText()
+        self.display_message(user_message)
 
-    def ai_message(self, user_message): 
-        client = OpenAI( 
-            api_key="sk-aitunnel-jJbl5JiPBgCygbIwCRpUFnK3PP0VHe8M", 
-            base_url="https://api.aitunnel.ru/v1/", 
-        ) 
-        completion = client.chat.completions.create( 
-            messages=[{"role": "user", "content": f"{user_message}"}], 
-            max_tokens=1025, 
-            model="gpt-4o-mini" 
-        ) 
-        end_message = completion.choices[0].message.content 
-        print("[AI ANSWER] ->", end_message) 
-        self.display_message(end_message, is_user=False) 
-        self.scroll_to_bottom()  # Прокручиваем вниз
+        self.ui.textEdit.clear()
+        ai_response = self.get_ai_response(user_message)
+        self.display_message(ai_response, is_ai=True)
 
-    def display_message(self, message, is_user): 
-        # Добавляем префикс в зависимости от того, кто отправляет сообщение
-        if is_user:
-            message = "Пользователь: " + message
+    def display_message(self, message, is_ai=False):
+        message_container = QWidget()
+        message_layout = QVBoxLayout(message_container)
+        message_layout.setContentsMargins(0, 0, 0, 0)
+
+        # Добавляем имя отправителя
+        sender_label = QLabel()
+        if is_ai:
+            sender_label.setText("Отличник")
         else:
-            message = "Нейросеть: " + message
+            sender_label.setText("User      ")
+        sender_label.setStyleSheet("font-size: 12px; color: #666666;")
+        message_layout.addWidget(sender_label, alignment=Qt.AlignTop | (Qt.AlignLeft if is_ai else Qt.AlignRight))
 
-        # Создаем метку для сообщения без стилей
-        message_label = QLabel(message) 
-        message_label.setWordWrap(True)  # Позволяем перенос текста 
+        # Добавляем текст сообщения
+        message_label = QLabel()
+        message_label.setText(message)
+        if is_ai:
+            message_label.setStyleSheet("background-color: #212121; color: white; border-radius: 10px; padding: 5px;")
+        else:
+            message_label.setStyleSheet("background-color: #8593fe; color: white; border-radius: 10px; padding: 5px;")
+        message_label.setWordWrap(True)  # Включаем wordWrap
+        message_label.setMinimumHeight(100)  # Установить минимальную высоту message_label
+        message_layout.addWidget(message_label, alignment=Qt.AlignTop | (Qt.AlignLeft if is_ai else Qt.AlignRight))
 
-        # Убираем стили и фон
-        message_label.setStyleSheet("") 
+        # Добавляем время отправки
+        time_label = QLabel()
+        time_label.setText(datetime.now().strftime("%H:%M"))
+        time_label.setStyleSheet("font-size: 12px; color: #666666;")
+        message_layout.addWidget(time_label, alignment=Qt.AlignBottom | (Qt.AlignLeft if is_ai else Qt.AlignRight))
 
-        # Добавляем метку в layout
-        self.message_layout.addWidget(message_label)  
-        self.scroll_to_bottom()  # Прокручиваем вниз
+        # Добавляем контейнер в макет
+        self.message_layout.addWidget(message_container, alignment=Qt.AlignTop | (Qt.AlignLeft if is_ai else Qt.AlignRight))
 
+        message_container.setFixedWidth(300)  # Устанавливаем максимальную ширину message_container
+        message_container.setMinimumHeight(150)  # Установить минимальную высоту message_container
+        message_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
-    def scroll_to_bottom(self):
-        self.ui.scrollArea.verticalScrollBar().setValue(self.ui.scrollArea.verticalScrollBar().maximum())
+        # Прокрутка вниз
+        self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())
+
+        # Обновление видимости scroll_area
+        self.scroll_area.setWidgetResizable(True)
+
+        # Автоматическое изменение размеров textBrowser
+        self.ui.textBrowser.setFixedSize(661, 371)
+
+    def get_ai_response(self, user_message):
+        client = OpenAI(
+            api_key="sk-aitunnel-M3c1CcdfxFb2oQWm2WMRpd9BbE88N2R8",
+            base_url="https://api.aitunnel.ru/v1/",
+        )
+        try:
+            completion = client.chat.completions.create(
+                messages=[{"role": "user", "content": user_message}],
+                max_tokens=1025,
+                model="gpt-4o-mini"
+            )
+            if completion and completion.choices:
+                if bug_button_active:
+                    QMessageBox.information(self, "Режим разработчика", f"{completion.choices[0]}")
+                return completion.choices[0].message.content
+            else:
+                return "Извините, я не смог получить ответ от нейросети."
+        except Exception as e:
+            if bug_button_active:
+                QMessageBox.information(self, "Режим разработчика", f"Ошибка при получении ответа от нейросети: {e}")
+            return "Произошла ошибка при обращении к нейросети."
+
 
 class MemoWindow(QMainWindow):
     def __init__(self):
@@ -576,7 +641,6 @@ class HMWindow(QMainWindow, Ui_HMWindow):
         self.ui = Ui_HMWindow()
         self.ui.setupUi(self)
         self.student_id = None
-        
         self.homeworks_by_date = defaultdict(list)
         self.current_date = datetime.now()
 
@@ -671,15 +735,18 @@ class HMWindow(QMainWindow, Ui_HMWindow):
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             data2 = response.json()
-            #print(data2)
             if 'profile' in data2 and 'id' in data2['profile']:
                 student_id = data2['profile']['id']
                 print(f"Student-ID: {student_id}")
                 self.student_id  = student_id
             else:
-                print("Student-ID не найден.")
+                if bug_button_active:
+                    QMessageBox.information(self, "Режим разработчика", "Student-ID не найден.")
+        elif response.status_code == 401:
+            self.reset_token()  # Сброс токена при ошибке 401
         else:
-            print(f"Error: {response.status_code} - {response.text}")
+            if bug_button_active:
+                QMessageBox.information(self, "Режим разработчика", f"Error: {response.status_code} - {response.text}")
     
     def homeworkcheck(self):
         today = self.current_date
@@ -697,6 +764,7 @@ class HMWindow(QMainWindow, Ui_HMWindow):
         }
 
         response = requests.get(url, headers=headers)
+        
         if response.status_code == 200:
             data = response.json()
 
@@ -705,9 +773,18 @@ class HMWindow(QMainWindow, Ui_HMWindow):
                 date_str = homework['date']
                 date = datetime.strptime(date_str, '%Y-%m-%d').date()
                 self.homeworks_by_date[date].append(homework)
+        elif response.status_code == 401:
+            self.reset_token()
         else:
-            print(f"Error: {response.status_code} - {response.text}")
-
+            if bug_button_active:
+                QMessageBox.information(self, "Режим разработчика", f"Error: {response.status_code} - {response.text}")
+    def reset_token(self):
+        self.token_mesh = ''
+        self.settings['token_mesh'] = ''
+        with open('settings.json', 'w') as f:
+            json.dump(self.settings, f)
+        QMessageBox.warning(self, "School Helper", "Токен авторизации устарел. Пожалуйста, введите новый токен.")
+        self.update_visibility()
     def populate_table(self):
         model = QStandardItemModel()
         model.setHorizontalHeaderLabels(["День недели", "Предмет", "Задание"])

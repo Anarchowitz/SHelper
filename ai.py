@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'chataiCUlTdU.ui'
+## Form generated from reading UI file 'chataiRtvTuP.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.1
 ##
@@ -16,8 +16,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QMainWindow,
-    QPushButton, QScrollArea, QSizePolicy, QTextEdit,
+    QPushButton, QSizePolicy, QTextBrowser, QTextEdit,
     QWidget)
+import shelper_rc
 
 class Ui_AiWindow(object):
     def setupUi(self, AiWindow):
@@ -26,6 +27,9 @@ class Ui_AiWindow(object):
         AiWindow.resize(1074, 714)
         AiWindow.setMinimumSize(QSize(1074, 714))
         AiWindow.setMaximumSize(QSize(1074, 714))
+        icon = QIcon()
+        icon.addFile(u":/icons/C:/Users/user/Downloads/\u0432\u0430\u0440\u0438\u0430\u043d\u0442\u0438\u043a\u043e\u043d\u043a\u04381-_1_.ico", QSize(), QIcon.Normal, QIcon.Off)
+        AiWindow.setWindowIcon(icon)
         AiWindow.setStyleSheet(u"background-color: #030303;")
         self.centralwidget = QWidget(AiWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -132,23 +136,6 @@ class Ui_AiWindow(object):
         self.textEdit.setStyleSheet(u"background-color: #1a1a1a;\n"
 "border:50px;\n"
 "border-radius:10px;")
-        self.frame_5 = QFrame(self.frame_3)
-        self.frame_5.setObjectName(u"frame_5")
-        self.frame_5.setGeometry(QRect(20, 10, 681, 391))
-        self.frame_5.setStyleSheet(u"background-color: #1a1a1a;")
-        self.frame_5.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_5.setFrameShadow(QFrame.Shadow.Raised)
-        self.scrollArea = QScrollArea(self.frame_5)
-        self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setGeometry(QRect(0, 0, 681, 391))
-        self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
-        self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 669, 391))
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.scrollArea.setWidgetResizable(True)
         self.sendButton = QPushButton(self.frame_3)
         self.sendButton.setObjectName(u"sendButton")
         self.sendButton.setGeometry(QRect(560, 420, 141, 31))
@@ -164,6 +151,9 @@ class Ui_AiWindow(object):
 "	background-color: #5c66b1;\n"
 "	font: 700 12pt \"Arial\";\n"
 "}")
+        self.textBrowser = QTextBrowser(self.frame_3)
+        self.textBrowser.setObjectName(u"textBrowser")
+        self.textBrowser.setGeometry(QRect(30, 20, 661, 371))
         AiWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(AiWindow)

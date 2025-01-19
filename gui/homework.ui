@@ -25,6 +25,10 @@
   <property name="windowTitle">
    <string>SHelper</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../qr/shelper.qrc">
+    <normaloff>:/icons/C:/Users/user/Downloads/вариантиконки1-_1_.ico</normaloff>:/icons/C:/Users/user/Downloads/вариантиконки1-_1_.ico</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">background-color: #030303;</string>
   </property>
@@ -440,6 +444,8 @@ QPushButton:pressed{
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../qr/shelper.qrc"/>
+ </resources>
  <connections/>
 </ui>
