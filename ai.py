@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'chataiiTMQOC.ui'
+## Form generated from reading UI file 'chataikfmFyC.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.1
 ##
@@ -124,7 +124,7 @@ class Ui_AiWindow(object):
         self.label.setGeometry(QRect(0, 20, 651, 31))
         self.frame_3 = QFrame(self.centralwidget)
         self.frame_3.setObjectName(u"frame_3")
-        self.frame_3.setGeometry(QRect(180, 80, 721, 461))
+        self.frame_3.setGeometry(QRect(160, 80, 751, 481))
         self.frame_3.setStyleSheet(u"background-color: #0a0a0a;\n"
 "border:50px;\n"
 "border-radius:10px;")
@@ -132,13 +132,13 @@ class Ui_AiWindow(object):
         self.frame_3.setFrameShadow(QFrame.Shadow.Raised)
         self.textEdit = QTextEdit(self.frame_3)
         self.textEdit.setObjectName(u"textEdit")
-        self.textEdit.setGeometry(QRect(20, 420, 531, 31))
+        self.textEdit.setGeometry(QRect(40, 440, 531, 31))
         self.textEdit.setStyleSheet(u"background-color: #1a1a1a;\n"
 "border:50px;\n"
 "border-radius:10px;")
         self.sendButton = QPushButton(self.frame_3)
         self.sendButton.setObjectName(u"sendButton")
-        self.sendButton.setGeometry(QRect(560, 420, 141, 31))
+        self.sendButton.setGeometry(QRect(580, 440, 141, 31))
         self.sendButton.setStyleSheet(u"QPushButton{\n"
 "	border:3px;\n"
 "	border-radius:10px;\n"
@@ -154,7 +154,7 @@ class Ui_AiWindow(object):
         self.sendButton.setAutoExclusive(False)
         self.textBrowser = QTextBrowser(self.frame_3)
         self.textBrowser.setObjectName(u"textBrowser")
-        self.textBrowser.setGeometry(QRect(30, 20, 661, 371))
+        self.textBrowser.setGeometry(QRect(10, 10, 731, 421))
         AiWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(AiWindow)
